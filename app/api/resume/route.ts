@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import { ChatCompletionMessage } from "openai";
+// import { ChatCompletionMessage } from "openai";
 import { increaseApilimit, checkApiLimit } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
 
@@ -9,7 +9,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const instructionMessage: ChatCompletionMessage = {
+const instructionMessage: OpenAI.Chat.ChatCompletionMessageParam = {
   role: "system",
   content: "You are an expert at tailoring resumes to match job descriptions. Analyze the provided resume and job description, then return a modified version of the resume that highlights relevant skills and experiences for the job. Choose the best work experiences, project experiences and skills for the job. Ensure to use the quantification method, Did X which resulted in Y and effected Z",
 };
@@ -61,10 +61,7 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("[RESUME_TAILORING_ERROR]", error);
-    return new NextResponse(JSON.stringify({ error: error.message || "Internal server error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.log("[CODE_ERROR]", error)
+    return new NextResponse("internal error", { status: 500})
   }
 }
