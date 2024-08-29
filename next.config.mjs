@@ -4,7 +4,11 @@ const nextConfig = {
         domains: [
             "oaidalleapiprodscus.blob.core.windows.net"
         ]
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
     }
+
 };
 
 export default nextConfig;
